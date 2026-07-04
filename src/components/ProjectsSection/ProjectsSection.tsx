@@ -1,83 +1,99 @@
-"use client";
-
-import { useState } from "react";
-import { DragOrderList } from "../lightswind/DragOrderList";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 export const ProjectsSection = () => {
-  const [projects] = useState([
-  {
-    id: 1,
-    title: "Smart Pharmacy AI Inventory Management",
-    subtitle:
-      "An AI-powered inventory management system that predicts medicine demand to minimize stock-outs using machine learning and predictive analytics. Developed as part of the IEEE EMBS Student Internship Program.",
-    date: "2026",
-    link: "https://github.com/Iman-Datta/MediStock-PredictAI",
-    image:
-      "https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg",
-  },
-  {
-    id: 2,
-    title: "CHORUS Member Management System",
-    subtitle:
-      "A full-stack web application for managing members, attendance, payments, and administrative operations with secure authentication, dashboards, and Firebase integration.",
-    date: "2026",
-    link: "https://github.com/ArpanKrSahoo/CHORUS-members",
-    image:
-      "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg",
-  },
-  {
-    id: 3,
-    title: "AI Tutor with 3D Avatar",
-    subtitle:
-      "An interactive AI-powered learning platform featuring voice interaction, a 3D avatar, and intelligent tutoring using React, Three.js, and TensorFlow.",
-    date: "2025",
-    link: "https://github.com/ArpanKrSahoo/med-track-blockchain",
-    image:
-      "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg",
-  },
-  {
-    id: 4,
-    title: "Sentiment Analysis & Recommendation System",
-    subtitle:
-      "Built an NLP-based recommendation engine by analyzing over one million user reviews to classify sentiment and generate personalized recommendations.",
-    date: "2025",
-    link: "YOUR_GITHUB_LINK",
-    image:
-      "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg",
-  },
-  {
-    id: 5,
-    title: "Machine Learning Survey Trend Analysis",
-    subtitle:
-      "Performed exploratory data analysis and predictive modeling on Kaggle's Machine Learning & Data Science Survey to uncover trends and forecast industry insights.",
-    date: "2025",
-    link: "YOUR_GITHUB_LINK",
-    image:
-      "https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg",
-  },
-
-
-  ]);
+  const projects = [
+    {
+      id: 1,
+      title: "Smart Pharmacy AI Inventory Management",
+      subtitle: "Predictive Analytics & Inventory Search",
+      date: "2026",
+      image: "/portfolio_work_one.png",
+      link: "https://github.com/Iman-Datta/MediStock-PredictAI",
+    },
+    {
+      id: 2,
+      title: "CHORUS Member Management System",
+      subtitle: "Full-Stack Member Ops & Authentication Dashboard",
+      date: "2026",
+      image: "/portfolio_work_two.png",
+      link: "https://github.com/ArpanKrSahoo/CHORUS-members",
+    },
+    {
+      id: 3,
+      title: "AI Tutor with 3D Avatar",
+      subtitle: "Speech Recognition & 3D Three.js Interface",
+      date: "2025",
+      image: "/portfolio_work_three.png",
+      link: "https://github.com/ArpanKrSahoo/med-track-blockchain",
+    },
+  ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ when: "beforeChildren", staggerChildren: 0.1 }}
-    >
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <motion.h2
-          className="text-3xl font-bold text-foreground mb-8 text-center"
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          Projects
-        </motion.h2>
-        <DragOrderList items={projects} />
-      </section>
-    </motion.div>
+    <section id="projects" className="w-full py-12">
+      <div className="space-y-12">
+        {/* Section Header */}
+        <div className="text-center space-y-2">
+          <span className="text-[14px] font-semibold text-secondary uppercase tracking-widest">
+            — Portfolio
+          </span>
+          <h2 className="text-[36px] md:text-[52px] font-bold text-primary tracking-tight">
+            Latest Works
+          </h2>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {projects.map((project) => (
+            <motion.a
+              key={project.id}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col space-y-4 group cursor-pointer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6 }}
+            >
+              {/* Image Box */}
+              <div className="relative aspect-[16/11] rounded-[18px] overflow-hidden bg-white shadow-xs border border-[#EEEEEE]">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover grayscale contrast-110 brightness-95 transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+
+              {/* Title & Metadata */}
+              <div className="flex flex-col space-y-1">
+                <span className="text-[13px] text-secondary font-medium">
+                  {project.subtitle} — {project.date}
+                </span>
+                <h3 className="text-[18px] md:text-[20px] font-bold text-primary tracking-tight leading-snug group-hover:text-secondary transition-colors flex items-center gap-1">
+                  <span>{project.title}</span>
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+
+        {/* View More Capsule */}
+        <div className="flex justify-center pt-4">
+          <motion.a
+            href="https://github.com/ArpanKrSahoo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 bg-[#FFFFFF] border border-[#EEEEEE] text-primary text-[15px] font-semibold px-8 py-3 rounded-full hover:bg-tertiary transition-colors shadow-xs"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span>Check out More</span>
+            <span className="text-[14px]">&rarr;</span>
+          </motion.a>
+        </div>
+      </div>
+    </section>
   );
 };

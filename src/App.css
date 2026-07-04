@@ -1,42 +1,74 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 @theme {
-  --font-sans: var(--font-geist-sans);
+  --color-primary: #222222;
+  --color-secondary: #7B7B7B;
+  --color-tertiary: #F8F8F8;
+  --color-white: #FFFFFF;
+  
+  --font-sans: "Satoshi", "Inter", sans-serif;
+  --font-satoshi: "Satoshi", "Inter", sans-serif;
 }
 
 @import "./components/lightswind.css";
 
-
-
-@font-face {
-  font-family: "Geist Sans";
-  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Geist Sans";
-  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Geist Sans";
-  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-
 * {
-  font-family: "Geist Sans", sans-serif !important;
+  font-family: "Satoshi", "Inter", sans-serif !important;
 }
 
+body {
+  background-color: #F8F8F8;
+  color: #222222;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #222222;
+}
 
+p {
+  font-weight: 400;
+  color: #7B7B7B;
+}
+
+button, a.cta-btn {
+  font-weight: 500;
+}
+
+/* Explicit style overrides to prevent variable collision with lightswind.css */
+.text-primary {
+  color: #222222 !important;
+}
+
+.text-secondary {
+  color: #7B7B7B !important;
+}
+
+.text-muted-foreground {
+  color: #7B7B7B !important;
+}
+
+.bg-primary {
+  background-color: #222222 !important;
+}
+
+.bg-secondary {
+  background-color: #7B7B7B !important;
+}
+
+.bg-tertiary {
+  background-color: #F8F8F8 !important;
+}
+
+.bg-white {
+  background-color: #FFFFFF !important;
+}
 

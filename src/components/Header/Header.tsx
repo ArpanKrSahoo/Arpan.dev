@@ -1,251 +1,141 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Variants, MotionProps } from "framer-motion";
-import { Menu, X, Sun, Moon, BookCheckIcon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
-import { BorderBeam } from "../lightswind/border-beam";
 
 const navItems = [
   { name: "Home", href: "#hero" },
   { name: "About", href: "#about" },
-  { name: "Education", href: "#education" },
-  { name: "Career", href: "#career" },
+  { name: "Experience", href: "#career" },
   { name: "Projects", href: "#projects" },
+  { name: "Skills", href: "#skills" },
+  { name: "Blog", href: "#blog" },
+  { name: "Contact", href: "#contact" },
 ];
 
 export default function Header() {
-  const [theme, setTheme] = useState<string>(() => {
-    return localStorage.getItem("theme") || "light";
-  });
-  const [showHeader, setShowHeader] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lenis = useLenis();
 
-  // Theme toggle
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  // Scroll listener for hide/show header
+  // Scroll listener for sticky style changes
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setShowHeader(false); // Scrolling down
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
       } else {
-        setShowHeader(true); // Scrolling up
+        setIsScrolled(false);
       }
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const handleScrollTo = (id: string) => {
     if (lenis) {
       lenis.scrollTo(id);
+    } else {
+      const element = document.querySelector(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
-    setIsMobileMenuOpen(false); // Close mobile menu on click
-  };
-
-  // ✅ Typed variants
-  const menuVariants: Variants = {
-    open: {
-      clipPath: "circle(1200px at 90% 5%)",
-      transition: {
-        type: "spring",
-        stiffness: 20,
-        restDelta: 2,
-      },
-    },
-    closed: {
-      clipPath: "circle(20px at 90% 5%)",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
-      },
-    },
-  };
-
-  const listVariants: Variants = {
-    open: {
-      transition: { staggerChildren: 0.07, delayChildren: 0.2 },
-    },
-    closed: {
-      transition: { staggerChildren: 0.05, staggerDirection: -1 },
-    },
-  };
-
-  const itemVariants: Variants = {
-    open: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        y: { stiffness: 1000, velocity: -100 },
-      },
-    },
-    closed: {
-      y: 50,
-      opacity: 0,
-      transition: {
-        y: { stiffness: 1000 },
-      },
-    },
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <AnimatePresence>
-      {showHeader && (
-        <motion.header
-          initial={{ y: -100, top: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0, transition: { duration: 0.4 } }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4"
-        >
-          <div
-            className="border border-gray-100 dark:border-gray-900 backdrop-blur-xl
-            w-full xl:max-w-6xl rounded-full
-            flex items-center justify-between px-6 py-3
-            transition-all duration-300"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center justify-center transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#FFFFFF] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)]"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="w-full max-w-[1440px] px-6 md:px-10 lg:px-[120px] flex items-center justify-between">
+          {/* Logo / Brand */}
+          <a
+            onClick={() => handleScrollTo("#hero")}
+            className="cursor-pointer font-bold text-[20px] text-[#222222] tracking-tight hover:opacity-85 transition-opacity"
           >
-            <BorderBeam />
+            arpan.dev
+          </a>
 
-            {/* Logo / Brand */}
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <ul className="flex space-x-8">
+              {navItems.map((item) => (
+                <li key={item.name} className="relative group">
+                  <a
+                    onClick={() => handleScrollTo(item.href)}
+                    className="cursor-pointer text-[15px] font-medium text-[#7B7B7B] group-hover:text-[#222222] transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                  {/* Subtle Underline Micro-animation */}
+                  <span className="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-[#222222] transition-all duration-300 group-hover:w-full" />
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Right CTA Button */}
+          <div className="hidden lg:block">
             <a
-              onClick={() => handleScrollTo("#hero")}
-              className="cursor-pointer font-bold text-lg text-gray-800 dark:text-white"
+              onClick={() => handleScrollTo("#contact")}
+              className="cursor-pointer relative group text-[15px] font-semibold text-[#222222] py-2"
             >
-              <BookCheckIcon />
+              Let's Talk
+              {/* Underline effect */}
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#222222] transition-transform duration-300 origin-left scale-x-100 group-hover:scale-x-0" />
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#222222] transition-transform duration-300 origin-right scale-x-0 group-hover:scale-x-100" />
             </a>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex flex-1 justify-center">
-              <ul className="flex space-x-6">
-                {navItems.map((item) => (
-                  <motion.li
-                    key={item.name}
-                    className="relative group text-sm font-medium text-gray-600 
-                    dark:text-gray-300 transition-colors"
-                  >
-                    <a
-                      onClick={() => handleScrollTo(item.href)}
-                      className="cursor-pointer hover:text-pink-800
-                       dark:hover:text-pink-400"
-                    >
-                      {item.name}
-                    </a>
-                    <motion.span
-                      className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-blue-500 rounded-full"
-                      initial={{ width: 0, x: "-50%" }}
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.li>
-                ))}
-              </ul>
-            </nav>
-
-            {/* Theme Toggle Button */}
-            <motion.button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-full text-sm font-semibold
-              hover:bg-pink-400 dark:hover:bg-pink-800 transition-colors
-               hidden md:block"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {theme === "dark" ? (
-                  <motion.div
-                    key="moon"
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 20, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Moon size={20} className="text-gray-800 dark:text-white" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="sun"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Sun size={20} className="text-gray-800 dark:text-white" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
-            {/* Mobile Menu Button - Hamburger */}
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden text-gray-800 dark:text-white"
-            >
-              <Menu size={24} />
-            </button>
           </div>
 
-          {/* Mobile Sidebar */}
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <motion.div
-                {...({
-                  initial: "closed",
-                  animate: "open",
-                  exit: "closed",
-                  variants: menuVariants,
-                } as MotionProps)}
-                className="fixed inset-0 z-40 bg-background dark:bg-background-dark md:hidden flex flex-col items-center justify-center"
-              >
-                {/* Close Button inside the sidebar */}
-                <motion.button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="absolute top-8 right-8 text-gray-800 dark:text-white"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <X size={32} />
-                </motion.button>
+          {/* Mobile Menu Button - Hamburger */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2 text-[#222222]"
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </header>
 
-                <motion.ul
-                  {...({
-                    variants: listVariants,
-                  } as MotionProps)}
-                  className="flex flex-col items-center justify-center h-full space-y-8"
+      {/* Mobile Drawer Navigation */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 top-20 z-40 bg-[#FFFFFF] flex flex-col p-8 lg:hidden"
+          >
+            <nav className="flex flex-col space-y-6">
+              {navItems.map((item) => (
+                <a
+                  key={item.name}
+                  onClick={() => handleScrollTo(item.href)}
+                  className="cursor-pointer text-[24px] font-bold text-[#222222] hover:text-[#7B7B7B] transition-colors"
                 >
-                  {navItems.map((item) => (
-                    <motion.li
-                      key={item.name}
-                      {...({ variants: itemVariants } as MotionProps)}
-                    >
-                      <a
-                        onClick={() => handleScrollTo(item.href)}
-                        className="text-4xl font-bold text-gray-800 dark:text-white cursor-pointer"
-                      >
-                        {item.name}
-                      </a>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.header>
-      )}
-    </AnimatePresence>
+                  {item.name}
+                </a>
+              ))}
+              <div className="pt-6 border-t border-[#EEEEEE]">
+                <a
+                  onClick={() => handleScrollTo("#contact")}
+                  className="cursor-pointer inline-block text-[20px] font-semibold text-[#222222] hover:opacity-80"
+                >
+                  Let's Talk &rarr;
+                </a>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
