@@ -56,7 +56,7 @@ export const AboutSection = () => {
           {/* Square Greyscale Photo Card */}
           <div className="aspect-square rounded-[24px] overflow-hidden bg-white shadow-xs border border-[#EEEEEE]">
             <img
-              src="/ChatGPT Image Jul 3, 2026, 08_57_25 PM.png"
+              src="/arpan2.png"
               alt="Arpan Profile"
               className="w-full h-full object-cover grayscale contrast-110 brightness-95"
             />
