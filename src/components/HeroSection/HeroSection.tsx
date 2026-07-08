@@ -56,22 +56,20 @@ export const HeroSection = () => {
           </div>
         </div>
 
-        {/* Right Column (Large Monochrome Portrait) - Take 5 cols */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end">
-          <motion.div
-            className="relative w-full max-w-[420px] aspect-[4/5] rounded-[18px] overflow-hidden bg-white shadow-md border border-[#EEEEEE]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+        {/* Right Column (Large Monochrome Portrait Cutout) - Take 5 cols */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end items-end overflow-visible">
+          <motion.img
+            src="/arpan1.png"
+            alt="Arpan Kumar Sahoo"
+            className="w-full max-w-[480px] lg:max-w-[540px] object-contain object-bottom -mb-12 grayscale contrast-110 brightness-95 select-none"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            <img
-              src="/ChatGPT Image Jul 3, 2026, 08_57_25 PM.png"
-              alt="Arpan Kumar Sahoo"
-              className="w-full h-full object-cover grayscale contrast-110 brightness-95"
-            />
-          </motion.div>
+          />
         </div>
       </div>
     </motion.section>
   );
 };
+
+
